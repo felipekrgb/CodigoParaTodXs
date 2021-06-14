@@ -1,10 +1,15 @@
-// eslint-disable-next-line no-unused-vars
 import React, { useRef } from 'react';
-import { ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import {
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+  Alert,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import api from '../../services/api';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -51,11 +56,26 @@ const SignUp = () => {
                 email: '',
                 password: '',
               }}
-              onSubmit={values => console.log(values)}
+              onSubmit={async values => {
+                try {
+                  await api.post('/users', values);
+
+                  Alert.alert(
+                    'Cadastro realizado com sucesso!',
+                    'Você já pode realizar login na aplicação!',
+                  );
+
+                  navigation.goBack();
+                } catch (err) {
+                  Alert.alert(
+                    'Ocorreu um erro ao realizar o cadastro!',
+                    err.response.data.error,
+                  );
+                }
+              }}
             >
               {({ handleChange, handleSubmit, values, errors, touched }) => (
                 <>
-                  {console.log(errors)}
                   <Input
                     autoCapitalize="words"
                     name="name"

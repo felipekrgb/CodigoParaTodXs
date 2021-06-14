@@ -39,6 +39,11 @@
       }
     ],
     "no-underscore-dangle": "off",
-    "no-nested-ternary": "off"
+    "no-nested-ternary": "off",
+    "no-unused-vars": [
+      {
+        "varsIgnorePattern": "React"
+      }
+    ]
   }
 }

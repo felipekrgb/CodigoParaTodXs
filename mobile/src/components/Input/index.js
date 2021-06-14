@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import React, { useState, useCallback, forwardRef } from 'react';
 import CurrencyInput from 'react-native-currency-input';
 
@@ -19,7 +18,6 @@ const Input = ({ name, icon, value, currency, error, ...rest }, ref) => {
     setIsFilled(!!value);
   }, [value]);
 
-  // TODO: CORRIGIR ERRO DA BORDA DE ERRO
   return (
     <Container isFocused={isFocused} isErrored={!!error}>
       <Icon

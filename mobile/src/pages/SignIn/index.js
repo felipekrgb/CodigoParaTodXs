@@ -1,10 +1,16 @@
-// eslint-disable-next-line no-unused-vars
 import React, { useRef } from 'react';
-import { ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import {
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+  Alert,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+
+import { useAuth } from '../../hooks/auth';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -21,6 +27,10 @@ import {
 const SignIn = () => {
   const navigation = useNavigation();
   const passwordInputRef = useRef(null);
+
+  const { signIn, user } = useAuth();
+
+  console.log(user);
 
   const signInValidationSchema = Yup.object().shape({
     email: Yup.string()
@@ -49,7 +59,18 @@ const SignIn = () => {
                 email: '',
                 password: '',
               }}
-              onSubmit={values => console.log(`valores: ${values.email}`)}
+              onSubmit={async values => {
+                try {
+                  await signIn(values);
+
+                  console.log('entrou na conta');
+                } catch (err) {
+                  Alert.alert(
+                    'Ocorreu um erro ao realizar o login!',
+                    err.response.data.error,
+                  );
+                }
+              }}
             >
               {({ handleChange, handleSubmit, values, errors, touched }) => (
                 <>

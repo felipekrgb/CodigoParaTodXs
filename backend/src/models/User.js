@@ -29,8 +29,8 @@ const UserSchema = new mongoose.Schema(
 );
 
 UserSchema.pre('save', async function (next) {
-  const hash = await bycrypt.hash(this.password, 10);
-  this.password = hash;
+  const hashedPassword = await bycrypt.hash(this.password, 8);
+  this.password = hashedPassword;
 
   next();
 });
