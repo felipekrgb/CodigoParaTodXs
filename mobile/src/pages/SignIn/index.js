@@ -28,9 +28,7 @@ const SignIn = () => {
   const navigation = useNavigation();
   const passwordInputRef = useRef(null);
 
-  const { signIn, user } = useAuth();
-
-  console.log(user);
+  const { signIn } = useAuth();
 
   const signInValidationSchema = Yup.object().shape({
     email: Yup.string()
@@ -62,8 +60,6 @@ const SignIn = () => {
               onSubmit={async values => {
                 try {
                   await signIn(values);
-
-                  console.log('entrou na conta');
                 } catch (err) {
                   Alert.alert(
                     'Ocorreu um erro ao realizar o login!',

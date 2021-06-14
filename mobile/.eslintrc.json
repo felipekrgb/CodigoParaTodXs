@@ -41,6 +41,7 @@
     "no-underscore-dangle": "off",
     "no-nested-ternary": "off",
     "no-unused-vars": [
+      "error",
       {
         "varsIgnorePattern": "React"
       }

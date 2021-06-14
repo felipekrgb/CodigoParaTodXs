@@ -8,10 +8,14 @@ import AppProvider from './hooks';
 
 import Routes from './routes';
 
-export default function App() {
+const App = () => {
   return (
     <NavigationContainer>
-      <StatusBar barStyle="light-content" backgroundColor="#000" translucent />
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="transparent"
+        translucent
+      />
       <AppProvider>
         <View
           style={{
@@ -24,4 +28,6 @@ export default function App() {
       </AppProvider>
     </NavigationContainer>
   );
-}
+};
+
+export default App;

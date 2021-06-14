@@ -3,7 +3,7 @@ import CurrencyInput from 'react-native-currency-input';
 
 import { Container, TextInput, Icon } from './styles';
 
-const Input = ({ name, icon, value, currency, error, ...rest }, ref) => {
+const Input = ({ icon, value, currency, error, ...rest }, ref) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
   const [valueCurrency, setValueCurrency] = React.useState();
