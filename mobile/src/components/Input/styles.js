@@ -17,8 +17,15 @@ export const Container = styled.View`
 
   ${props =>
     props.isErrored &&
+    !props.isFilled &&
     css`
       border-color: #c53030;
+    `}
+
+  ${props =>
+    props.isFilled &&
+    css`
+      border-color: #8a1bc6;
     `}
 
   ${props =>

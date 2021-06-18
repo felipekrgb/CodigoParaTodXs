@@ -22,13 +22,36 @@ sessionsRouter.post('/', async (req, res) => {
 
     user.password = undefined;
 
+    let interest;
+    if (user.score < 100) {
+      interest = 10.34;
+    } else if (user.score < 200) {
+      interest = 9.78;
+    } else if (user.score < 300) {
+      interest = 9.13;
+    } else if (user.score < 400) {
+      interest = 8.34;
+    } else if (user.score < 500) {
+      interest = 7.52;
+    } else if (user.score < 600) {
+      interest = 6.84;
+    } else if (user.score < 700) {
+      interest = 5.52;
+    } else if (user.score < 800) {
+      interest = 4.24;
+    } else if (user.score < 900) {
+      interest = 3.19;
+    } else {
+      interest = 2.12;
+    }
+
     const { id } = user;
 
     const token = sign({ id }, '3f56f7b818e86fb3ac0b54fa5c8d671f', {
       expiresIn: '7d',
     });
 
-    return res.json({ user, token });
+    return res.json({ user, interest, token });
   } catch (err) {
     return res.status(400).json({ message: 'Falha ao fazer login' });
   }

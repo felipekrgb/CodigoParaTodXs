@@ -23,13 +23,15 @@ import {
   LoanText,
   DateButton,
   DateButtonText,
+  LoanInfo,
+  LoanInfoText,
+  DateButtonView,
 } from './styles';
 
 const Dashboard = () => {
   const { user, signOut } = useAuth();
 
-  const [date, setDate] = useState(new Date());
-  const [formattedDate, setFormattedDate] = useState(() => {
+  const formatDate = useCallback(date => {
     const months = [
       'jan',
       'fev',
@@ -48,43 +50,56 @@ const Dashboard = () => {
     const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
 
     return `${day} ${months[date.getMonth()]}`;
-  });
+  }, []);
+
+  const [timestampDate, setTimestampDate] = useState(new Date());
+  const [formattedDate, setFormattedDate] = useState(formatDate(timestampDate));
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [sliderAmount, setSliderAmount] = useState(1000);
-  const [sliderInstallments, setSliderInstallments] = useState(6);
+  const [loanAmount, setLoanAmount] = useState(1000);
+  const [loanTotal, setLoanTotal] = useState(
+    loanAmount + (loanAmount * user.interest) / 100,
+  );
+  const [installmentsQuantity, setInstallmentsQuantity] = useState(6);
+  const [installmentValue, setInstallmentValue] = useState(
+    loanTotal / installmentsQuantity,
+  );
+
+  const handleLoanAmountChange = useCallback(
+    value => {
+      setLoanAmount(value);
+      setLoanTotal(value + (value * user.interest) / 100);
+      setInstallmentValue(
+        (value + (value * user.interest) / 100) / installmentsQuantity,
+      );
+    },
+    [installmentsQuantity, user.interest],
+  );
+
+  const handleInstallmentsQuantityChange = useCallback(
+    value => {
+      setInstallmentsQuantity(value);
+      setInstallmentValue(loanTotal / value);
+    },
+    [loanTotal],
+  );
 
   const handleToggleDatePicker = useCallback(() => {
     setShowDatePicker(state => !state);
   }, []);
 
-  const handleDateChanged = useCallback((event, changedDate) => {
-    if (Platform.OS === 'android') {
-      setShowDatePicker(false);
-    }
+  const handleDateChanged = useCallback(
+    value => {
+      if (Platform.OS === 'android') {
+        setShowDatePicker(false);
+      }
 
-    const months = [
-      'jan',
-      'fev',
-      'mar',
-      'abr',
-      'maio',
-      'jun',
-      'jul',
-      'ago',
-      'set',
-      'out',
-      'nov',
-      'dez',
-    ];
+      const changedDate = formatDate(value);
 
-    const day =
-      changedDate.getDate() < 10
-        ? `0${changedDate.getDate()}`
-        : changedDate.getDate();
-
-    setDate(changedDate);
-    setFormattedDate(`${day} ${months[changedDate.getMonth()]}`);
-  }, []);
+      setTimestampDate(value);
+      setFormattedDate(changedDate);
+    },
+    [formatDate],
+  );
 
   return (
     <Container>
@@ -122,9 +137,9 @@ const Dashboard = () => {
       <FormContainer>
         <Formik
           initialValues={{
-            amount: sliderAmount,
-            installments: sliderInstallments,
-            firstInstallment: date,
+            loanAmount,
+            installmentsQuantity,
+            firstInstallment: timestampDate,
           }}
           onSubmit={values => {
             console.log('entrei');
@@ -135,15 +150,20 @@ const Dashboard = () => {
             <>
               <LoanTitle>Empréstimo</LoanTitle>
               <LoanQuestion>De quanto você precisa?</LoanQuestion>
-              <LoanText>R$ {sliderAmount}</LoanText>
+              <LoanText>
+                {new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(loanAmount)}
+              </LoanText>
               <Slider
-                name="amount"
-                value={values.amount}
+                name="loanAmount"
+                value={values.loanAmount}
                 onValueChange={value => {
-                  setSliderAmount(value);
-                  values.amount = value;
+                  handleLoanAmountChange(value);
+                  values.loanAmount = value;
                 }}
-                onChangeText={handleChange('amount')}
+                onChangeText={handleChange('loanAmount')}
                 style={{ width: '100%', height: 60 }}
                 minimumValue={1000}
                 maximumValue={50000}
@@ -153,15 +173,21 @@ const Dashboard = () => {
                 maximumTrackTintColor="#e63888"
               />
               <LoanQuestion>Em quantas parcelas você quer pagar?</LoanQuestion>
-              <LoanText>{sliderInstallments} parcelas</LoanText>
+              <LoanText>
+                {installmentsQuantity} parcelas de{' '}
+                {new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(installmentValue)}
+              </LoanText>
               <Slider
-                name="installments"
-                value={values.installments}
+                name="installmentsQuantity"
+                value={values.installmentsQuantity}
                 onValueChange={value => {
-                  setSliderInstallments(value);
-                  values.installments = value;
+                  handleInstallmentsQuantityChange(value);
+                  values.installmentsQuantity = value;
                 }}
-                onChangeText={handleChange('installments')}
+                onChangeText={handleChange('installmentsQuantity')}
                 style={{ width: '100%', height: 60 }}
                 minimumValue={6}
                 maximumValue={72}
@@ -171,26 +197,38 @@ const Dashboard = () => {
                 maximumTrackTintColor="#e63888"
               />
               <LoanQuestion>Quando você deseja começar a pagar?</LoanQuestion>
-              <DateButton onPress={handleToggleDatePicker}>
-                <DateButtonText>{formattedDate}</DateButtonText>
-                {showDatePicker && (
-                  <DateTimePicker
-                    mode="date"
-                    display="calendar"
-                    onChange={(event, value) => {
-                      if (event.type === 'dismissed') {
-                        handleToggleDatePicker();
-                        return;
-                      }
+              <DateButtonView>
+                <DateButton onPress={handleToggleDatePicker}>
+                  <DateButtonText>{formattedDate}</DateButtonText>
+                  {showDatePicker && (
+                    <DateTimePicker
+                      mode="date"
+                      display="calendar"
+                      onChange={(event, value) => {
+                        if (event.type === 'dismissed') {
+                          handleToggleDatePicker();
+                          return;
+                        }
 
-                      values.firstInstallment = value;
+                        values.firstInstallment = value;
 
-                      handleDateChanged(event, value);
-                    }}
-                    value={values.firstInstallment}
-                  />
-                )}
-              </DateButton>
+                        handleDateChanged(value);
+                      }}
+                      value={values.firstInstallment}
+                    />
+                  )}
+                </DateButton>
+              </DateButtonView>
+
+              <LoanInfo>
+                <LoanInfoText>
+                  {new Intl.NumberFormat('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL',
+                  }).format(loanTotal)}
+                </LoanInfoText>
+                <LoanInfoText>{user.interest}% a.m</LoanInfoText>
+              </LoanInfo>
 
               <Button onPress={handleSubmit}>Visualizar informações</Button>
             </>

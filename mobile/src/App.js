@@ -1,12 +1,19 @@
 import 'react-native-gesture-handler';
 
 import React from 'react';
-import { View, StatusBar } from 'react-native';
+import { View, StatusBar, Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 
 import AppProvider from './hooks';
 
 import Routes from './routes';
+
+if (Platform.OS === 'android') {
+  // eslint-disable-next-line global-require
+  require('intl');
+  // eslint-disable-next-line global-require
+  require('intl/locale-data/jsonp/pt-BR');
+}
 
 const App = () => {
   return (

@@ -19,7 +19,7 @@ const Input = ({ icon, value, currency, error, ...rest }, ref) => {
   }, [value]);
 
   return (
-    <Container isFocused={isFocused} isErrored={!!error}>
+    <Container isFocused={isFocused} isErrored={!!error} isFilled={isFilled}>
       <Icon
         name={icon}
         size={20}

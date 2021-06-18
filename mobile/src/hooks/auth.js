@@ -39,7 +39,9 @@ export const AuthProvider = ({ children }) => {
       password,
     });
 
-    const { token, user } = response.data;
+    const { token, user, interest } = response.data;
+
+    user.interest = interest;
 
     await AsyncStorage.multiSet([
       ['@CodigoParaTodXs:token', token],

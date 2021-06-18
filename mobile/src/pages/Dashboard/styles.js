@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components/native';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
-import { BorderlessButton } from 'react-native-gesture-handler';
+import { RectButton } from 'react-native-gesture-handler';
 
 export const Container = styled.View`
   flex: 1;
@@ -77,12 +77,43 @@ export const LoanText = styled.Text`
   font-family: 'Roboto-Medium';
 `;
 
-export const DateButton = styled(BorderlessButton)`
+export const DateButtonView = styled.View`
   width: 20%;
-  height: 26px;
+  height: 28px;
+  border-bottom-width: 1px;
+  border-color: #8a1bc6;
+`;
+
+export const DateButton = styled(RectButton)`
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const DateButtonText = styled.Text`
+  font-family: 'Roboto-Medium';
+  color: #e63888;
+  font-size: 18px;
+`;
+
+export const LoanInfo = styled.View`
+  width: 100%;
+  height: 30px;
+  border-bottom-width: 1px;
+  border-color: grey;
+  margin-top: 50px;
+
+  display: flex;
+  flex-direction: row;
+
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const LoanInfoText = styled.Text`
   font-family: 'Roboto-Medium';
   color: #e63888;
   font-size: 18px;
