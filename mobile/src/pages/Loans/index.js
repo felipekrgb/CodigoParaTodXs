@@ -8,7 +8,7 @@ const Loans = () => {
 
   return (
     <View style={{ flex: 1, justifyContent: 'center' }}>
-      <Button title="Sair" onPress={signOut} />
+      <Button style={{ marginBottom: 20 }} title="Sair" onPress={signOut} />
     </View>
   );
 };

@@ -22,6 +22,10 @@ const UserSchema = new mongoose.Schema(
       required: true,
       select: false,
     },
+    score: {
+      type: Number,
+      required: true,
+    },
   },
   {
     timestamps: true,

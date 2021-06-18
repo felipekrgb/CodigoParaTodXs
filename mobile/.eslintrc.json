@@ -45,6 +45,7 @@
       {
         "varsIgnorePattern": "React"
       }
-    ]
+    ],
+    "no-param-reassign": "off"
   }
 }

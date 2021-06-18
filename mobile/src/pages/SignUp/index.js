@@ -58,6 +58,30 @@ const SignUp = () => {
               }}
               onSubmit={async values => {
                 try {
+                  let incomeValue = values.income;
+                  incomeValue = Number(
+                    incomeValue.substr(2).replace('.', '').replace(',', '.'),
+                  );
+
+                  let minScore;
+                  let maxScore;
+                  if (incomeValue < 1500) {
+                    minScore = 0;
+                    maxScore = 300;
+                  } else if (incomeValue < 3500) {
+                    minScore = 301;
+                    maxScore = 700;
+                  } else {
+                    minScore = 701;
+                    maxScore = 1000;
+                  }
+
+                  const score = Math.floor(
+                    Math.random() * (maxScore - minScore + 1) + minScore,
+                  );
+
+                  values.score = score;
+
                   await api.post('/users', values);
 
                   Alert.alert(
