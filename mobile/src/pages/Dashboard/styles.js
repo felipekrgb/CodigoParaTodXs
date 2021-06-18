@@ -82,7 +82,7 @@ export const DateButton = styled(BorderlessButton)`
   height: 26px;
 `;
 
-export const ButtonText = styled.Text`
+export const DateButtonText = styled.Text`
   font-family: 'Roboto-Medium';
   color: #e63888;
   font-size: 18px;

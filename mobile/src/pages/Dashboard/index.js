@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-import { TouchableOpacity } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { TouchableOpacity, Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import Slider from '@react-native-community/slider';
 import { Formik } from 'formik';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-import { PrivateValueStore } from '@react-navigation/native';
 import { useAuth } from '../../hooks/auth';
 
 import Button from '../../components/Button';
@@ -23,16 +22,69 @@ import {
   LoanQuestion,
   LoanText,
   DateButton,
-  ButtonText,
+  DateButtonText,
 } from './styles';
 
 const Dashboard = () => {
   const { user, signOut } = useAuth();
 
   const [date, setDate] = useState(new Date());
+  const [formattedDate, setFormattedDate] = useState(() => {
+    const months = [
+      'jan',
+      'fev',
+      'mar',
+      'abr',
+      'maio',
+      'jun',
+      'jul',
+      'ago',
+      'set',
+      'out',
+      'nov',
+      'dez',
+    ];
+
+    const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
+
+    return `${day} ${months[date.getMonth()]}`;
+  });
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [sliderAmount, setSliderAmount] = useState(1000);
   const [sliderInstallments, setSliderInstallments] = useState(6);
+
+  const handleToggleDatePicker = useCallback(() => {
+    setShowDatePicker(state => !state);
+  }, []);
+
+  const handleDateChanged = useCallback((event, changedDate) => {
+    if (Platform.OS === 'android') {
+      setShowDatePicker(false);
+    }
+
+    const months = [
+      'jan',
+      'fev',
+      'mar',
+      'abr',
+      'maio',
+      'jun',
+      'jul',
+      'ago',
+      'set',
+      'out',
+      'nov',
+      'dez',
+    ];
+
+    const day =
+      changedDate.getDate() < 10
+        ? `0${changedDate.getDate()}`
+        : changedDate.getDate();
+
+    setDate(changedDate);
+    setFormattedDate(`${day} ${months[changedDate.getMonth()]}`);
+  }, []);
 
   return (
     <Container>
@@ -70,10 +122,9 @@ const Dashboard = () => {
       <FormContainer>
         <Formik
           initialValues={{
-            email: '',
             amount: sliderAmount,
             installments: sliderInstallments,
-            firstInstallment: new Date(),
+            firstInstallment: date,
           }}
           onSubmit={values => {
             console.log('entrei');
@@ -101,7 +152,6 @@ const Dashboard = () => {
                 minimumTrackTintColor="#8a1bc6"
                 maximumTrackTintColor="#e63888"
               />
-
               <LoanQuestion>Em quantas parcelas você quer pagar?</LoanQuestion>
               <LoanText>{sliderInstallments} parcelas</LoanText>
               <Slider
@@ -120,14 +170,23 @@ const Dashboard = () => {
                 minimumTrackTintColor="#8a1bc6"
                 maximumTrackTintColor="#e63888"
               />
-
               <LoanQuestion>Quando você deseja começar a pagar?</LoanQuestion>
-              <DateButton>
-                <ButtonText>30 jan</ButtonText>
+              <DateButton onPress={handleToggleDatePicker}>
+                <DateButtonText>{formattedDate}</DateButtonText>
                 {showDatePicker && (
                   <DateTimePicker
                     mode="date"
                     display="calendar"
+                    onChange={(event, value) => {
+                      if (event.type === 'dismissed') {
+                        handleToggleDatePicker();
+                        return;
+                      }
+
+                      values.firstInstallment = value;
+
+                      handleDateChanged(event, value);
+                    }}
                     value={values.firstInstallment}
                   />
                 )}
