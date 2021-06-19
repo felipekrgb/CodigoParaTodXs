@@ -153,7 +153,7 @@ const Dashboard = () => {
                 style: 'currency',
                 currency: 'BRL',
               }).format(loanTotal),
-              firstInstallmentFormatted: formatDate(values.firstInstallment),
+              firstInstallment: formatDate(values.firstInstallment),
               installmentsQuantity,
               installmentValue: new Intl.NumberFormat('pt-BR', {
                 style: 'currency',
