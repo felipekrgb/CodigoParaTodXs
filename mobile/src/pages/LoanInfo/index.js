@@ -19,9 +19,8 @@ const LoanInfo = ({ route }) => {
   const { loanInfo } = route.params;
 
   const handleSubmit = useCallback(() => {
-    console.log('entrei no submit');
-    console.log(loanInfo);
-  }, [loanInfo]);
+    navigation.navigate('LoanCreated');
+  }, [loanInfo, navigation]);
 
   return (
     <Container>

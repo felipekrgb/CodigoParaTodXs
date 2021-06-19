@@ -144,8 +144,6 @@ const Dashboard = () => {
             firstInstallment: timestampDate,
           }}
           onSubmit={values => {
-            console.log('entrei');
-
             const loanInfo = {
               loan: new Intl.NumberFormat('pt-BR', {
                 style: 'currency',

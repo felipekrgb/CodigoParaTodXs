@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import Dashboard from '../pages/Dashboard';
 import LoanInfo from '../pages/LoanInfo';
+import LoanCreated from '../pages/LoanCreated';
 
 const Stack = createStackNavigator();
 
@@ -18,6 +19,7 @@ const AuthRoutes = () => {
     >
       <Stack.Screen name="Dashboard" component={Dashboard} />
       <Stack.Screen name="LoanInfo" component={LoanInfo} />
+      <Stack.Screen name="LoanCreated" component={LoanCreated} />
     </Stack.Navigator>
   );
 };
