@@ -26,6 +26,12 @@ const UserSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    loans: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Loan',
+      },
+    ],
   },
   {
     timestamps: true,

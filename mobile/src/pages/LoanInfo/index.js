@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useCallback } from 'react';
 
 import Button from '../../components/Button';
+import { useAuth } from '../../hooks/auth';
 import api from '../../services/api';
 
 import {
@@ -16,17 +17,20 @@ import {
 } from './styles';
 
 const LoanInfo = ({ route }) => {
+  const { user } = useAuth();
   const navigation = useNavigation();
   const { loanInfo } = route.params;
 
   const handleSubmit = useCallback(async () => {
+    console.log(user._id);
+
     try {
-      await api.post('/loans', loanInfo);
+      await api.post('/loans', { loanInfo, userId: user._id });
       navigation.navigate('LoanCreated');
     } catch (err) {
-      console.log(err);
+      console.log(err.response.data);
     }
-  }, [loanInfo, navigation]);
+  }, [loanInfo, navigation, user]);
 
   return (
     <Container>
