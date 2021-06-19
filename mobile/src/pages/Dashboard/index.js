@@ -202,6 +202,7 @@ const Dashboard = () => {
                   <DateButtonText>{formattedDate}</DateButtonText>
                   {showDatePicker && (
                     <DateTimePicker
+                      minimumDate={new Date()}
                       mode="date"
                       display="calendar"
                       onChange={(event, value) => {
