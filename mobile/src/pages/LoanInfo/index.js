@@ -20,7 +20,7 @@ const LoanInfo = ({ route }) => {
 
   const handleSubmit = useCallback(() => {
     navigation.navigate('LoanCreated');
-  }, [loanInfo, navigation]);
+  }, [navigation]);
 
   return (
     <Container>
