@@ -1,4 +1,4 @@
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 import { RectButton } from 'react-native-gesture-handler';
 
 export const Container = styled(RectButton)`
@@ -10,10 +10,17 @@ export const Container = styled(RectButton)`
 
   justify-content: center;
   align-items: center;
+
+  ${props =>
+    props.cancelButton &&
+    css`
+      background-color: #b20000;
+    `}
 `;
 
 export const ButtonText = styled.Text`
   font-family: 'Roboto-Medium';
+  text-align: center;
   color: #fff;
   font-size: 18px;
 `;

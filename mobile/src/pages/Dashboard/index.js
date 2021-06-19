@@ -5,6 +5,7 @@ import Slider from '@react-native-community/slider';
 import { Formik } from 'formik';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
+import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../../hooks/auth';
 
 import Button from '../../components/Button';
@@ -30,6 +31,7 @@ import {
 
 const Dashboard = () => {
   const { user, signOut } = useAuth();
+  const navigation = useNavigation();
 
   const formatDate = useCallback(date => {
     const months = [
@@ -143,7 +145,26 @@ const Dashboard = () => {
           }}
           onSubmit={values => {
             console.log('entrei');
-            console.log(values);
+
+            const loanInfo = {
+              loan: new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+              }).format(values.loanAmount),
+              loanTotal: new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+              }).format(loanTotal),
+              firstInstallmentFormatted: formatDate(values.firstInstallment),
+              installmentsQuantity,
+              installmentValue: new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+              }).format(installmentValue),
+              interest: user.interest,
+            };
+
+            navigation.navigate('LoanInfo', { loanInfo });
           }}
         >
           {({ handleChange, handleSubmit, values }) => (
