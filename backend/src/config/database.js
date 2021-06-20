@@ -1,5 +1,5 @@
 export default {
   mongoose: {
-    url: process.env.DB_URL,
+    url: 'mongodb+srv://felipe:123@cluster0.7i983.mongodb.net/CodigoParaTodXs?retryWrites=true&w=majority',
   },
 };
