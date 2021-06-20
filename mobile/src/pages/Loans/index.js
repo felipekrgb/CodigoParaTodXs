@@ -3,7 +3,6 @@ import { View, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { useIsFocused } from '@react-navigation/native';
 
-import { useAuth } from '../../hooks/auth';
 import api from '../../services/api';
 
 import {
@@ -20,20 +19,19 @@ import {
 const Loans = () => {
   const [loans, setLoans] = useState();
   const [loading, setLoading] = useState(false);
-  const { user } = useAuth();
   const isFocused = useIsFocused();
 
   useEffect(() => {
     setLoading(true);
     async function getLoans() {
-      const response = await api.get(`/loans/${user._id}`);
+      const response = await api.get(`/loans`);
 
       setLoans(response.data.loans);
       setLoading(false);
     }
 
     getLoans();
-  }, [isFocused, user._id]);
+  }, [isFocused]);
 
   if (loading) {
     return (

@@ -2,7 +2,11 @@ import { Router } from 'express';
 import Loan from '../models/Loan';
 import User from '../models/User';
 
+import auth from '../middlewares/auth';
+
 const loanRouter = Router();
+
+loanRouter.use(auth);
 
 loanRouter.post('/', async (req, res) => {
   try {
@@ -21,9 +25,9 @@ loanRouter.post('/', async (req, res) => {
   }
 });
 
-loanRouter.get('/:id', async (req, res) => {
+loanRouter.get('/', async (req, res) => {
   try {
-    const user = await User.findById(req.params.id).populate('loans');
+    const user = await User.findById(req.userId).populate('loans');
 
     const { loans } = user;
 

@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import bycrypt from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
+import authConfig from '../config/auth';
 
 import User from '../models/User';
 
@@ -46,9 +47,10 @@ sessionsRouter.post('/', async (req, res) => {
     }
 
     const { id } = user;
+    const { secret, expiresIn } = authConfig.jwt;
 
-    const token = sign({ id }, '3f56f7b818e86fb3ac0b54fa5c8d671f', {
-      expiresIn: '7d',
+    const token = sign({ id }, secret, {
+      expiresIn,
     });
 
     return res.json({ user, interest, token });
