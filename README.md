@@ -107,3 +107,5 @@ Essa aplicação é para o programa Código para todXs edição Mobile - Serasa.
 - Foi utilizado JSON Web Tokens para a geração de tokens para tratar a questão de rotas privadas
 
 - Optei por não utilizar variáveis de ambiente para a conexão com o banco de dados e para a geração de tokens, visto que isto é apenas um teste.
+
+- Optei pela versão online do MongoDB para que não seja necessário a instalação local de uma base de dados.
