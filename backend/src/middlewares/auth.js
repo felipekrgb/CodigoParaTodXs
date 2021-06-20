@@ -15,8 +15,6 @@ export default async function ensureAuthenticated(req, res, next) {
 
     req.userId = decoded.id;
 
-    console.log(req.userId);
-
     return next();
   } catch (err) {
     return res.status(401).json({ error: 'Token inválido' });

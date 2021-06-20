@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import databaseConfig from '../config/database';
 
 class Database {
   constructor() {
@@ -7,15 +8,12 @@ class Database {
 
   async mongo() {
     try {
-      await mongoose.connect(
-        'mongodb+srv://felipe:123@cluster0.7i983.mongodb.net/CodigoParaTodXs?retryWrites=true&w=majority',
-        {
-          useNewUrlParser: true,
-          useUnifiedTopology: true,
-          useFindAndModify: false,
-          useCreateIndex: true,
-        },
-      );
+      await mongoose.connect(databaseConfig.mongoose.url, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+        useCreateIndex: true,
+      });
       console.log('Database connected.');
     } catch (err) {
       console.log('Failed to connect.', err);
