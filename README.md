@@ -69,7 +69,7 @@ Essa aplicação é para o programa Código para todXs edição Mobile - Serasa.
   # Iniciar o emulador
   $ yarn android
   # ou
-  $ npm android
+  $ npx react-native run-android
 ```
 
 ## Instruções de utilização
