@@ -43,7 +43,6 @@ Essa aplicação é para o programa Código para todXs edição Mobile - Serasa.
   # ou
   $ npm i
 
-
   # Iniciar a aplicação:
   $ yarn start
   # ou
