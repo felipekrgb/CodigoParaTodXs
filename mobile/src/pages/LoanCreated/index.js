@@ -13,7 +13,7 @@ const LoanInfo = () => {
     <Container>
       <Icon name="check" size={120} color="#04d361" />
 
-      <Title>Seu empréstimo foi realizado com sucesso!</Title>
+      <Title>Seu empréstimo foi realizado com sucesso</Title>
       <Description>Cheque sua aba de empréstimo para acompanhar</Description>
       <Button
         onPress={() =>

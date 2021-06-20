@@ -1,5 +1,6 @@
-import { useNavigation } from '@react-navigation/native';
 import React, { useCallback } from 'react';
+import { Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import Button from '../../components/Button';
 import { useAuth } from '../../hooks/auth';
@@ -22,13 +23,11 @@ const LoanInfo = ({ route }) => {
   const { loanInfo } = route.params;
 
   const handleSubmit = useCallback(async () => {
-    console.log(user._id);
-
     try {
       await api.post('/loans', { loanInfo, userId: user._id });
       navigation.navigate('LoanCreated');
     } catch (err) {
-      console.log(err.response.data);
+      Alert.alert('Ocorreu um erro ao criar a vaga!', err.response.data);
     }
   }, [loanInfo, navigation, user]);
 
