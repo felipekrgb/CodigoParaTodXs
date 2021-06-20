@@ -12,7 +12,7 @@ loanRouter.post('/', async (req, res) => {
   try {
     const loan = await Loan.create(req.body.loanInfo);
 
-    const user = await User.findById(req.body.userId);
+    const user = await User.findById(req.userId);
     await user.updateOne({
       $push: {
         loans: loan,

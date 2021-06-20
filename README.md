@@ -16,8 +16,8 @@ Essa aplicação é para o programa Código para todXs edição Mobile - Serasa.
 
 ## Requisitos
 
-- [**Git**](https://git-scm.com/).
-- [**Node.js**](https://nodejs.org/en/).
+- [**Git**](https://git-scm.com/)
+- [**Node.js**](https://nodejs.org/en/)
 - Um dispostivio ou emulador ([**Android Studio**](https://developer.android.com/studio) é recomendado)
 
 ## Execução
@@ -40,39 +40,35 @@ Essa aplicação é para o programa Código para todXs edição Mobile - Serasa.
 
   # Instalar as dependências:
   $ yarn
-  #ou
+  # ou
   $ npm i
 
 
   # Iniciar a aplicação:
   $ yarn star
-  #ou
+  # ou
   $ npm start
 ```
 
 - Iniciando app
 
 ```bash
-  # Voltar à pasta inicial:
-  $ cd ..
-
   # Entrar na pasta mobile:
   $ cd mobile
 
   # Instalar as dependências:
   $ yarn
-  #ou
+  # ou
   $ npm i
-
 
   # Rodar a aplicação:
   $ yarn star
-  #ou
+  # ou
   $ npm start
 
-  # Iniciar o emulador
+  # Em outro terminal, iniciar o emulador
   $ yarn android
-  #ou
+  # ou
   $ npm android
 ```
 
@@ -90,6 +86,60 @@ Essa aplicação é para o programa Código para todXs edição Mobile - Serasa.
 
 - O usuário também tem acesso a uma outra aba, a aba **Empréstimos solicitados**, onde são apresentados todos os empréstimos que o usuário já solicitou, e também apresentado um breve resumo das informações do empréstimo.
 
+## Documentação
+
+### Back-end
+
+#### Routes
+
+- No back-end, existe a pasta routes, onde tem todas as rotas possíveis da aplicação.
+- O arquivo user.routes apresenta a rota para criação (método POST) de um usuário. Ele verifica no banco de dados se existe algum usuário com o email fornecido no app mobile, caso não exista, ele realiza o cadastro e também é criado um Score (apenas simulação) com base no salário que o usuário informou.
+- O arquivo loan.routes apresenta a rotas para a criação (método POST) e apresentação (método GET) de empréstimos. No método POST, ele cria um empréstimo e faz a conexão dele com o usuário que criou. No método GET ele retorna todos os empréstimos solicitados por um usuário.
+- O arquivo session.routes apresenta a rota para fazer login no app. Ele busca por um email, caso não existe ele retorna um erro. Compara a senha criptografada que está no banco de dados com a senha enviada pelo usuário no formulário do app e caso esteja correto, é permitida a entrada do usuário no sistema, caso esteja errada, retorna uma mensagem de senha inválida.
+
+#### Models
+
+- Na pasta models existem os schemas do moongose, basicamente um modelo de como iremos salvar os dados dentro da base de dados.
+
+#### Middlewares
+
+- Na pasta middlewares existe um único arquivo que é executado antes que uma determinada rota seja chamada, no caso, ele é executado antes da chamada das rotas de criação e visualização de empréstimos, para que tenha certeza que o usuário esteja logado (rotas privadas) e para que seja possível identificar qual o usuário que está chamando tal rota.
+
+#### Database
+
+- Na pasta database é onde é feita a conexão com o MongoDB Atlas e algumas configurações.
+
+#### Config
+
+- Na pasta config é onde temos variáveis de configurações para geração de tokens e para a conexão com o banco de dados.
+
+### Mobile
+
+#### Pages
+
+- Na pasta pages é onde temos todas as possíveis telas da aplicação.
+- Temos a tela de login, a tela de registro.
+- Temos a tela Principal (Dashboard), onde é apresentado todo o esquema para realizar um empréstimo.
+- Temos a tela de Empréstimos (Loans), onde são apresentados todos os empréstimos de um usuário.
+- Temos a tela de Informações de Empréstimo (LoansInfo), onde é apresentado uma revisão das informações de um empréstimo do usuário.
+- Temos a tela de Empréstimo realizado com Sucesso (LoanCreated), onde é apresentada uma mensagem de que o empréstimo foi realizado com sucesso.
+
+#### Hooks
+
+- Na pasta hooks temos um arquivo responsável por disponibilizar para o resto da aplicação algumas funcões e váriaveis necessárias, como por exemplo, é possível disponibilizar dados do usuário em diversas páginas apenas fazendo um import desse arquivo.
+
+#### Components
+
+- Na pasta components temos recursos visuais que são utilizados diversas vezes, como por exemplo, botões e inputs.
+
+#### Routes
+
+- Na pasta routes é onde temos as parte que controla o fluxo das telas da pasta Pages.
+
+#### Services
+
+- Na pasta services temos a configuração da chamada do back-end.
+
 ## Adicionais
 
 - Foi utilizado axios para fazer a conexão com o back-end
@@ -105,6 +155,8 @@ Essa aplicação é para o programa Código para todXs edição Mobile - Serasa.
 - Foi utilizado bcrypt.js para fazer a criptografia das senhas
 
 - Foi utilizado JSON Web Tokens para a geração de tokens para tratar a questão de rotas privadas
+
+- Foi utilizado Editorconfig, Prettier e ESLint para manter uma organização nos padrões de código.
 
 - Optei por não utilizar variáveis de ambiente para a conexão com o banco de dados e para a geração de tokens, visto que isto é apenas um teste.
 

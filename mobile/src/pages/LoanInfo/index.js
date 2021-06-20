@@ -3,7 +3,6 @@ import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import Button from '../../components/Button';
-import { useAuth } from '../../hooks/auth';
 import api from '../../services/api';
 
 import {
@@ -18,18 +17,17 @@ import {
 } from './styles';
 
 const LoanInfo = ({ route }) => {
-  const { user } = useAuth();
   const navigation = useNavigation();
   const { loanInfo } = route.params;
 
   const handleSubmit = useCallback(async () => {
     try {
-      await api.post('/loans', { loanInfo, userId: user._id });
+      await api.post('/loans', { loanInfo });
       navigation.navigate('LoanCreated');
     } catch (err) {
       Alert.alert('Ocorreu um erro ao criar a vaga!', err.response.data);
     }
-  }, [loanInfo, navigation, user]);
+  }, [loanInfo, navigation]);
 
   return (
     <Container>
