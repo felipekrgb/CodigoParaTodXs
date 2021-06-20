@@ -41,3 +41,19 @@ export const LoanText = styled.Text`
   margin-left: 8px;
   font-family: 'Roboto-Medium';
 `;
+
+export const ContainerEmpty = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+
+  padding: 0 24px;
+`;
+
+export const TitleEmpty = styled.Text`
+  font-size: 32px;
+  color: #e63888;
+  font-family: 'Roboto-Medium';
+
+  text-align: center;
+`;
