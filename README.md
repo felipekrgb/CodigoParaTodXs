@@ -12,7 +12,7 @@ Essa aplicação é para o programa Código para todXs edição Mobile - Serasa.
 
 - Node.js
 
-- MongoDB, optei por utilizar o MongoDB Atlas (versão online do MongoDB), para não ser necessário a instalação de um banco de dados local
+- MongoDB Atlas (versão online do MongoDB)
 
 ## Requisitos
 
